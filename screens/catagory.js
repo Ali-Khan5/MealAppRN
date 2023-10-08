@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
       flex: 1,
     //   backgroundColor: '#fff',
     // marginTop: 50,
-    padding: 20,
+    padding: 10,
   },
   CategoryList: {
     flexDirection: "row",
@@ -22,7 +22,6 @@ export default function Category({navigation}) {
     // console.log(CATEGORIES);
   return (
     <View style={styles.container}>
-      <Text>Categories are</Text>
       <ScrollView>
       <View style={styles.CategoryList}>
         {CATEGORIES.map((val,index)=>{

@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     height: 250,
     // overflow: "hidden",
     overflow: Platform.OS === "android" ? "hidden" : "visible",
+    marginBottom: 20,
   },
   heroSection: {
     flex: 1,
@@ -55,25 +56,28 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     marginTop: 10,
   },
-  innerRadius:{
-    flex:1,
-    borderRadius:20,
-    overflow:'hidden'
+  innerRadius: {
+    flex: 1,
+    borderRadius: 20,
+    overflow: "hidden",
   },
-  buttonPressed:{
-    opacity:0.5
+  buttonPressed: {
+    opacity: 0.5,
   },
-  pressable:{
-    flex:1
+  pressable: {
+    flex: 1,
   },
 });
 
-export default function MealItem({ data }) {
+export default function MealItem({ data, onPress }) {
   return (
     <View style={styles.container}>
-      <Pressable 
-        style={({pressed})=>[styles.pressable,pressed ?styles.buttonPressed: null]}
-        // onPress={onPress}
+      <Pressable
+        style={({ pressed }) => [
+          styles.pressable,
+          pressed ? styles.buttonPressed : null,
+        ]}
+        onPress={onPress}
       >
         <View style={styles.innerRadius}>
           <View style={[styles.heroSection]}>
