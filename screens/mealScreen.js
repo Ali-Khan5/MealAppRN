@@ -7,9 +7,10 @@ import {
   Platform,
   Button,
 } from "react-native";
-import { useLayoutEffect } from "react";
+import { useContext, useLayoutEffect } from "react";
 import Steps from "../components/steps";
 import IconButton from "../components/iconbutton";
+import {FavoritesContext} from "../store/context/favourites-context";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -51,18 +52,30 @@ const styles = StyleSheet.create({
 
 export default function MealScreen({ route, navigation }) {
   const data = route.params.mealData;
+  const favoriteMealCtx=useContext(FavoritesContext);
+  const mealIsFavorite=favoriteMealCtx.ids.includes(data.id);
   function headerButtonHandler(){
     console.log('pressed');
+    if(mealIsFavorite){
+      favoriteMealCtx.removeFavorites(data.id);
+    }
+    else{
+      favoriteMealCtx.addFavorites(data.id);
+    }
   }
+
   useLayoutEffect(() => {
     // console.log(displayerCategory);
     navigation.setOptions({
       title: data.title,
       headerRight: () => {
-        return <IconButton onPress={headerButtonHandler} icon="star" color="white"/>;
+        return <IconButton onPress={headerButtonHandler} 
+        icon={mealIsFavorite ?'star':'star-outline' 
+      }color="white"/>;
       },
     });
-  }, [data, navigation]);
+  }, [data, navigation,mealIsFavorite]);
+  console.log('render?')
   return (
     <View style={styles.container}>
       <ScrollView>

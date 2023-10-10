@@ -8,6 +8,7 @@ import MealOverViewScreen from "./screens/mealsOverViewScreen";
 import MealScreen from "./screens/mealScreen";
 import FavoriteScreen from "./screens/FavoriteScreen";
 import { Ionicons } from "@expo/vector-icons";
+import {FavoritesContextProvider} from './store/context/favourites-context';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -35,14 +36,19 @@ function DrawerNaviRgator() {
         component={Category}
         options={{
           title: "All Category",
-          drawerIcon: (color, size) => <Ionicons name="list" color={'white'} size={22} />,
+          drawerIcon: (color, size) => (
+            <Ionicons name="list" color={"white"} size={22} />
+          ),
         }}
       />
-      <Drawer.Screen name="Favorites" component={FavoriteScreen}
-      options={{
-       
-        drawerIcon: (color, size) => <Ionicons name="star" color={'white'} size={20} />,
-      }}
+      <Drawer.Screen
+        name="Favorites"
+        component={FavoriteScreen}
+        options={{
+          drawerIcon: (color, size) => (
+            <Ionicons name="star" color={"white"} size={20} />
+          ),
+        }}
       />
     </Drawer.Navigator>
   );
@@ -52,43 +58,45 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: { backgroundColor: "#754005" },
-            headerTintColor: "white",
-            gestureDirection: "horizontal",
-            cardStyle: {
-              backgroundColor: "#282626",
-            },
-          }}
-        >
-          <Stack.Screen
-            name="Meals Category"
-            component={DrawerNaviRgator}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Meals Overview"
-            component={MealOverViewScreen}
-            // options={(route,navigation)=>{
-            //   const catID=route.params.categoryID;
-            //     return {title:catID};
-            // }}
-          />
-          <Stack.Screen
-            name="Meals Screen"
-            component={MealScreen}
-            options={{
-              title: "Meals Screen",
-              headerRight: () => {
-                return <Text> In the Header </Text>;
+      <FavoritesContextProvider style={styles.container}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: { backgroundColor: "#754005" },
+              headerTintColor: "white",
+              gestureDirection: "horizontal",
+              cardStyle: {
+                backgroundColor: "#282626",
               },
             }}
-          />
-        </Stack.Navigator>
-        {/* <Category/> */}
-      </NavigationContainer>
+          >
+            <Stack.Screen
+              name="Meals Category"
+              component={DrawerNaviRgator}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Meals Overview"
+              component={MealOverViewScreen}
+              // options={(route,navigation)=>{
+              //   const catID=route.params.categoryID;
+              //     return {title:catID};
+              // }}
+            />
+            <Stack.Screen
+              name="Meals Screen"
+              component={MealScreen}
+              options={{
+                title: "Meals Screen",
+                headerRight: () => {
+                  return <Text> In the Header </Text>;
+                },
+              }}
+            />
+          </Stack.Navigator>
+          {/* <Category/> */}
+        </NavigationContainer>
+      </FavoritesContextProvider>
     </View>
   );
 }

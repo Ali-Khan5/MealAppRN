@@ -1,7 +1,8 @@
 import { useLayoutEffect } from "react";
-import { StyleSheet, View, FlatList, SafeAreaView } from "react-native";
+import { StyleSheet, View, FlatList,  } from "react-native";
 import { MEALS, CATEGORIES } from "../data/dummy-data";
 import MealItem from "../components/mealItem";
+import MealDisplay from "../components/mealDisplay";
 
 const styles = StyleSheet.create({
   container: {
@@ -35,21 +36,8 @@ export default function MealOverViewScreen({ route, navigation }) {
     navigation.navigate("Meals Screen", { mealData: mealdata });
   }
 
-  function renderMealItem(itemData) {
-    return (
-      <MealItem
-        data={itemData.item}
-        onPress={() => MealItemHandler(itemData.item)}
-      />
-    );
-  }
+  
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={displayedMeals}
-        keyExtractor={(item) => item.id}
-        renderItem={renderMealItem}
-      />
-    </SafeAreaView>
+    <MealDisplay MealViewHandler={MealItemHandler} displayedMeals={displayedMeals}/>
   );
 }

@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
     },
     pressed:{
         opacity:0.5
+        ,marginRight:15
     }
     
   });

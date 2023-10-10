@@ -1,17 +1,54 @@
 import { StyleSheet, Text, View } from 'react-native';
+import {useContext} from 'react';
+import MealDisplay from '../components/mealDisplay';
+import {FavoritesContext} from "../store/context/favourites-context";
+import { MEALS } from '../data/dummy-data';
 
 const styles = StyleSheet.create({
     container: {
-    //   flex: 1,
+       flex: 1,
     //   backgroundColor: '#fff',
-      
+      padding:30,
     },
+    font:{
+      fontSize:60,
+      color:'white',
+      fontWeight:'bold'
+    }
   });
   
-export default function FavoriteScreen() {
-  return (
+export default function FavoriteScreen({navigation}) {
+  const favoriteMealCtx=useContext(FavoritesContext);
+
+  const MealIDs = favoriteMealCtx.ids;
+
+  const displayedMeals = MEALS.filter((mealItem) => MealIDs.includes(mealItem.id));
+
+  // useLayoutEffect(() => {
+  //   const displayerCategory = CATEGORIES.find(
+  //     (categoryItem) => categoryItem.id == catid
+  //   );
+  //   // console.log(displayerCategory);
+  //   navigation.setOptions({
+  //     title: displayerCategory.title,
+  //   });
+  // }, [catid, navigation]);
+
+  function MealItemHandler(mealdata) {
+    navigation.navigate("Meals Screen", { mealData: mealdata });
+  }
+  const NothingAdded=
     <View style={styles.container}>
-      <Text>Favorite Screen</Text>
-    </View>
+      <Text style={styles.font}>
+        Star Receipes for them to appear here...
+      </Text>
+    </View>;
+  
+  return (
+      displayedMeals.length?
+        <MealDisplay MealViewHandler={MealItemHandler} displayedMeals={displayedMeals}/>:
+        NothingAdded
+      
+    
   );
 }
