@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
 import {useContext} from 'react';
 import MealDisplay from '../components/mealDisplay';
-import {FavoritesContext} from "../store/context/favourites-context";
+import { useDispatch, useSelector } from "react-redux";
+// import {FavoritesContext} from "../store/context/favourites-context";
 import { MEALS } from '../data/dummy-data';
 
 const styles = StyleSheet.create({
@@ -18,11 +19,12 @@ const styles = StyleSheet.create({
   });
   
 export default function FavoriteScreen({navigation}) {
-  const favoriteMealCtx=useContext(FavoritesContext);
+  // const favoriteMealCtx=useContext(FavoritesContext);
+  const favoriteIds=useSelector((state)=>state.favoriteMeals.ids);
 
-  const MealIDs = favoriteMealCtx.ids;
+  // const MealIDs = favoriteMealCtx.ids;
 
-  const displayedMeals = MEALS.filter((mealItem) => MealIDs.includes(mealItem.id));
+  const displayedMeals = MEALS.filter((mealItem) => favoriteIds.includes(mealItem.id));
 
   // useLayoutEffect(() => {
   //   const displayerCategory = CATEGORIES.find(

@@ -10,7 +10,9 @@ import {
 import { useContext, useLayoutEffect } from "react";
 import Steps from "../components/steps";
 import IconButton from "../components/iconbutton";
-import {FavoritesContext} from "../store/context/favourites-context";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavorite, removeFavorite } from "../store/redux/favorites";
+// import {FavoritesContext} from "../store/context/favourites-context";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -52,15 +54,19 @@ const styles = StyleSheet.create({
 
 export default function MealScreen({ route, navigation }) {
   const data = route.params.mealData;
-  const favoriteMealCtx=useContext(FavoritesContext);
-  const mealIsFavorite=favoriteMealCtx.ids.includes(data.id);
-  function headerButtonHandler(){
-    console.log('pressed');
-    if(mealIsFavorite){
-      favoriteMealCtx.removeFavorites(data.id);
-    }
-    else{
-      favoriteMealCtx.addFavorites(data.id);
+  // const favoriteMealCtx=useContext(FavoritesContext);
+  const favoriteMealsIds = useSelector((state) => state.favoriteMeals.ids);
+  const dispatch = useDispatch();
+  // const mealIsFavorite=favoriteMealCtx.ids.includes(data.id);
+  const mealIsFavorite = favoriteMealsIds.includes(data.id);
+  function headerButtonHandler() {
+    console.log("pressed");
+    if (mealIsFavorite) {
+      // favoriteMealCtx.removeFavorites(data.id);
+      dispatch(removeFavorite({ id: data.id }));
+    } else {
+      // favoriteMealCtx.addFavorites(data.id);
+      dispatch(addFavorite({ id: data.id }));
     }
   }
 
@@ -69,13 +75,17 @@ export default function MealScreen({ route, navigation }) {
     navigation.setOptions({
       title: data.title,
       headerRight: () => {
-        return <IconButton onPress={headerButtonHandler} 
-        icon={mealIsFavorite ?'star':'star-outline' 
-      }color="white"/>;
+        return (
+          <IconButton
+            onPress={headerButtonHandler}
+            icon={mealIsFavorite ? "star" : "star-outline"}
+            color="white"
+          />
+        );
       },
     });
-  }, [data, navigation,mealIsFavorite]);
-  console.log('render?')
+  }, [data, navigation, mealIsFavorite]);
+  console.log("render?");
   return (
     <View style={styles.container}>
       <ScrollView>

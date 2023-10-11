@@ -9,6 +9,8 @@ import MealScreen from "./screens/mealScreen";
 import FavoriteScreen from "./screens/FavoriteScreen";
 import { Ionicons } from "@expo/vector-icons";
 import {FavoritesContextProvider} from './store/context/favourites-context';
+import { Provider } from "react-redux"; 
+import { Store } from "./store/redux/store";
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -58,7 +60,10 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      <FavoritesContextProvider style={styles.container}>
+      {/* <FavoritesContextProvider style={styles.container}> */}
+      <Provider store={Store}>
+
+   
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{
@@ -96,7 +101,8 @@ export default function App() {
           </Stack.Navigator>
           {/* <Category/> */}
         </NavigationContainer>
-      </FavoritesContextProvider>
+      {/* </FavoritesContextProvider> */}
+      </Provider>
     </View>
   );
 }
